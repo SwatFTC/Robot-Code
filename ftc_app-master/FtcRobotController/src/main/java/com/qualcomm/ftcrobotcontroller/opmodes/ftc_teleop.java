@@ -147,12 +147,35 @@ public class ftc_teleop extends OpMode {
 
 
 			if (Math.abs(DlsY) > .1 || Math.abs(DrsX) > .1) {
-				if (Math.abs(DlsY) + Math.abs(DrsX) > 1) {
-					motorLeft.setPower(1);
-					motorRight.setPower(1);
-				} else {
-					motorRight.setPower(DlsY + DrsX);
-					motorLeft.setPower(DlsY - DrsX);
+				if (Math.abs(DlsY) > .1 && Math.abs(DrsX) > .1){
+					if(DlsY + DrsX > 1){
+						motorRight.setPower(1);
+					}
+					else if (DlsY + DrsX < -1){
+						motorRight.setPower(-1);
+					}
+					else{
+						motorRight.setPower(DlsY + DrsX);
+					}
+					if(DlsY- DrsX > 1){
+						motorLeft.setPower(1);
+					}
+					else if (DlsY - DrsX < -1){
+						motorLeft.setPower(-1);
+					}
+					else{
+						motorLeft.setPower(DlsY - DrsX);
+					}
+
+				}
+				else if (Math.abs(DlsY) > .1 && Math.abs(DrsX) <= .1) {
+					motorLeft.setPower(DlsY);
+					motorRight.setPower(DlsY);
+				}
+
+				else if ((Math.abs(DlsY) <= .1)&&( Math.abs(DrsX) > .1)) {
+					motorLeft.setPower(DrsX);
+					motorRight.setPower(-DrsX);
 				}
 			} else {
 				motorRight.setPower(0);
@@ -166,11 +189,11 @@ public class ftc_teleop extends OpMode {
 			}
 
 			if (Math.abs(OrsY) > .1) {
-				liftTurn.setPower(-OrsY);
+				liftTurn.setPower(OrsY);
 			} else if ((Math.abs(OrsY)<= .1)&&(gamepad2.dpad_up)){
-				liftTurn.setPower(0.2);
-			} else if ((Math.abs(OrsY) <= .1)&&(gamepad2.dpad_down)) {
 				liftTurn.setPower(-0.2);
+			} else if ((Math.abs(OrsY) <= .1)&&(gamepad2.dpad_down)) {
+				liftTurn.setPower(0.2);
 			} else {
 				liftTurn.setPower(0);
 			}
